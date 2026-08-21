@@ -1,0 +1,23 @@
+name: astrbot_plugin_anime_cutout # 插件唯一识别名
+display_name: 动漫抠图 # 展示名
+short_desc: 动漫人物一键去背景 # 短描述
+desc: 基于 ISNet 的动漫人物一键抠图插件。发送图片并附带 /cutout 即可去除背景，支持透明背景、白底、遮罩与对比图输出，内置模型管理与自动下载。 # 插件描述
+version: v1.0.0 # 插件版本号
+author: Flandre
+repo: https://github.com/Logxk/astrbot_plugin_anime_cutout # 插件仓库地址
+astrbot_version: ">=4.16"
+support_platforms:
+  - aiocqhttp
+  - qq_official
+  - qq_official_webhook
+  - telegram
+  - discord
+  - lark
+  - dingtalk
+  - wecom
+  - satori
+  - kook
+  - misskey
+  - line
+  - matrix
+  - mattermost

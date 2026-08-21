@@ -1,0 +1,30 @@
+# Python bytecode
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# Virtual environments
+.venv/
+venv/
+env/
+.env
+
+# Distribution / packaging
+*.egg-info/
+.eggs/
+dist/
+build/
+
+# Large model weights — do not commit
+models/*.ckpt
+models/*.pth
+models/*.pt
+models/*.onnx
+models/*.safetensors
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.idea/
+.vscode/

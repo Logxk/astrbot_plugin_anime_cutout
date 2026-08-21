@@ -1,0 +1,10 @@
+numpy
+opencv-python-headless
+huggingface_hub
+
+# 注意：torch 与 torchvision 体积较大，且 Windows 上 PyPI 默认为 CPU 版本。
+# 如需 CUDA 加速，请先按官方指引手动安装对应版本的 pytorch：
+#   pip3 install torch torchvision torchaudio --index-url https://download.pytorch.org/whl/cu121
+# 再进行插件安装，或安装插件后手动重装 torch。
+torch
+torchvision

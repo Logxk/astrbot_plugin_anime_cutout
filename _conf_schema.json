@@ -1,0 +1,61 @@
+{
+  "model_path": {
+    "description": "模型权重路径",
+    "hint": "留空则依次查找：插件目录 models/isnetis.ckpt → 开启「自动下载模型」时从 HuggingFace 下载到插件数据目录。也可填写本地 isnetis.ckpt 的绝对或相对路径。",
+    "type": "string",
+    "default": ""
+  },
+  "auto_download_model": {
+    "description": "自动下载模型",
+    "hint": "本地未找到模型权重时，是否自动从 HuggingFace 下载到插件数据目录。",
+    "type": "bool",
+    "default": true
+  },
+  "hf_repo": {
+    "description": "HuggingFace 仓库",
+    "hint": "自动下载模型时使用的 HuggingFace 仓库，默认 skytnt/anime-seg。",
+    "type": "string",
+    "default": "skytnt/anime-seg"
+  },
+  "hf_file": {
+    "description": "模型文件名",
+    "hint": "自动下载的模型文件名，默认 isnetis.ckpt。",
+    "type": "string",
+    "default": "isnetis.ckpt"
+  },
+  "device": {
+    "description": "推理设备",
+    "hint": "auto 自动选择 cuda:0（若可用）否则 cpu；也可手动指定 cpu 或 cuda:0。",
+    "type": "string",
+    "default": "auto",
+    "options": [
+      "auto",
+      "cpu",
+      "cuda:0"
+    ]
+  },
+  "img_size": {
+    "description": "网络输入尺寸",
+    "hint": "越大越精细但越慢；GPU 推荐 1024，CPU 推荐 640。",
+    "type": "int",
+    "default": 1024
+  },
+  "use_amp": {
+    "description": "GPU 混合精度",
+    "hint": "GPU 推理时启用混合精度（AMP）以加速并降低显存占用；CPU 下无效。",
+    "type": "bool",
+    "default": true
+  },
+  "output_mode": {
+    "description": "默认输出模式",
+    "hint": "transparent 透明背景 PNG / white 白底 / mask 黑白遮罩 / compare 原图·抠图·遮罩对比图。命令中可用 /cutout white 等临时覆盖。",
+    "type": "string",
+    "default": "transparent",
+    "options": [
+      "transparent",
+      "white",
+      "mask",
+      "compare"
+    ]
+  }
+}
