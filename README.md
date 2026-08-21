@@ -30,16 +30,44 @@ AstrBot 动漫人物一键抠图插件。发送一张动漫图片即可去除背
 1. 确认 AstrBot 运行环境中已安装 `torch` / `torchvision`（如需 CUDA 加速，请手动安装 CUDA 版 PyTorch）
 2. 将本插件目录放入 `AstrBot/data/plugins/astrbot_plugin_anime_cutout`
 3. 在 AstrBot WebUI 的插件管理中启用并重载插件，插件会自动安装其余依赖
-4. 自行安装抠图模型
+4. 下载抠图模型 `isnetis.ckpt`（约 200MB），放入插件目录 `models/` 下，
+   或在配置项 `model_path` 中指定其路径。下载地址见下方 [模型](#模型) 章节
 
 ## 模型
 
-插件模型为官方 `isnetis.ckpt`（约 200MB）。获取方式按优先级：
+插件模型为官方 `isnetis.ckpt`（约 200MB），**不随仓库分发，需自行下载**。
+
+### 下载地址
+
+| 来源 | 链接 |
+| --- | --- |
+| HuggingFace 官方站 | https://huggingface.co/skytnt/anime-seg/resolve/main/isnetis.ckpt |
+| HuggingFace 镜像站（国内加速） | https://hf-mirror.com/skytnt/anime-seg/resolve/main/isnetis.ckpt |
+| 模型仓库页面 | https://huggingface.co/skytnt/anime-seg |
+
+> 镜像站与官方站文件一致，国内网络访问官方站缓慢或失败时请改用镜像站链接。
+
+### 下载后放置
+
+将下载到的 `isnetis.ckpt` 放到以下任一位置，插件会按优先级查找：
 
 1. 插件配置 `model_path` 中指定的路径
-2. 插件目录 `models/isnetis.ckpt`（本插件已内置）
-3. 开启 `auto_download_model` 时，自动从 HuggingFace `skytnt/anime-seg` 下载到
-   `data/plugin_data/astrbot_plugin_anime_cutout/isnetis.ckpt`
+2. 插件目录 `models/isnetis.ckpt`
+
+### 自动下载
+
+若开启配置项 `auto_download_model`，且上述位置均未找到模型，插件会自动从
+HuggingFace `skytnt/anime-seg` 下载到
+`data/plugin_data/astrbot_plugin_anime_cutout/isnetis.ckpt`。
+
+国内网络下，自动下载可改走镜像站加速：在启动 AstrBot 前设置环境变量
+
+```bash
+export HF_ENDPOINT=https://hf-mirror.com
+```
+
+（Windows PowerShell：`$env:HF_ENDPOINT="https://hf-mirror.com"`），
+插件调用 `huggingface_hub` 时即会使用该镜像站。
 
 ## 配置项
 
@@ -62,4 +90,5 @@ discord / lark / dingtalk / wecom / satori / kook / line / matrix / mattermost �
 ## 感谢
 
 模型与推理代码来自 [SkyTNT/anime-segmentation](https://github.com/SkyTNT/anime-segmentation)
-（MIT License，随插件附带 `models/isnetis.ckpt` 亦来自该仓库的 HuggingFace 发布）。
+（MIT License），模型权重 `isnetis.ckpt` 来自该仓库在 HuggingFace 的发布
+（[skytnt/anime-seg](https://huggingface.co/skytnt/anime-seg)）。
