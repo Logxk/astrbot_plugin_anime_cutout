@@ -57,5 +57,41 @@
       "mask",
       "compare"
     ]
+  },
+  "max_image_pixels": {
+    "description": "图片最大像素数",
+    "hint": "输入图片分辨率上限（宽×高），用于防范解压炸弹（decompression bomb）。超过此值的图片将被拒绝处理。默认 20000000（约 20 兆像素）。",
+    "type": "int",
+    "default": 20000000
+  },
+  "max_image_file_size_mb": {
+    "description": "图片最大文件大小（MB）",
+    "hint": "输入图片文件大小上限，超过此值的图片将被拒绝。默认 50MB。",
+    "type": "int",
+    "default": 50
+  },
+  "cache_enabled": {
+    "description": "启用结果缓存",
+    "hint": "按图片内容哈希 + 输出模式缓存抠图结果，相同图片重复发送时直接返回缓存，跳过推理。",
+    "type": "bool",
+    "default": true
+  },
+  "cache_max_entries": {
+    "description": "缓存条目上限",
+    "hint": "内存中保留的最大缓存条目数，超出后自动淘汰最旧条目并删除其文件。默认 50。",
+    "type": "int",
+    "default": 50
+  },
+  "cache_ttl_hours": {
+    "description": "缓存保留时长（小时）",
+    "hint": "缓存输出文件在磁盘上的保留时长，超时后由自动清理任务删除。默认 24 小时。",
+    "type": "int",
+    "default": 24
+  },
+  "cleanup_interval_minutes": {
+    "description": "自动清理间隔（分钟）",
+    "hint": "后台自动清理任务的执行间隔，定期删除过期缓存与残留临时文件。默认 30 分钟。",
+    "type": "int",
+    "default": 30
   }
 }

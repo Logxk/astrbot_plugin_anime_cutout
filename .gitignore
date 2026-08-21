@@ -28,3 +28,6 @@ models/*.safetensors
 Thumbs.db
 .idea/
 .vscode/
+
+# Review notes (not part of plugin)
+新建 文本文档.txt
