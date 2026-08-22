@@ -123,5 +123,19 @@ discord / lark / dingtalk / wecom / satori / kook / line / matrix / mattermost �
 ## 感谢
 
 模型与推理代码来自 [SkyTNT/anime-segmentation](https://github.com/SkyTNT/anime-segmentation)
-（MIT License），模型权重 `isnetis.ckpt` 来自该仓库在 HuggingFace 的发布
+（Apache License 2.0），模型权重 `isnetis.ckpt` 来自该仓库在 HuggingFace 的发布
 （[skytnt/anime-seg](https://huggingface.co/skytnt/anime-seg)）。
+
+## 许可证
+
+本插件自身代码（`main.py`、`_conf_schema.json` 等）以
+[MIT](LICENSE) 协议发布。
+
+`anime_cutout_lib/` 目录内的模型结构代码派生自
+[SkyTNT/anime-segmentation](https://github.com/SkyTNT/anime-segmentation)，
+依其原协议 [Apache-2.0](anime_cutout_lib/LICENSE) 分发；其中 `isnet.py`
+沿用上游自 [xuebinqin/DIS](https://github.com/xuebinqin/DIS)
+借用的实现，未做功能性修改。
+
+模型权重 `isnetis.ckpt` 版权归上游所有，本插件不随仓库分发该文件，
+请按上文「模型」章节自行下载。

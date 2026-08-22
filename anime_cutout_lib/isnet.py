@@ -1,5 +1,11 @@
 # Codes are borrowed from
 # https://github.com/xuebinqin/DIS/blob/main/IS-Net/models/isnet.py
+#
+# This file is copied from SkyTNT/anime-segmentation (Apache-2.0):
+#   https://github.com/SkyTNT/anime-segmentation
+# No functional modifications compared with the upstream copy.
+# Licensed under the Apache License, Version 2.0; see LICENSE
+# in this directory.
 
 import torch
 import torch.nn as nn

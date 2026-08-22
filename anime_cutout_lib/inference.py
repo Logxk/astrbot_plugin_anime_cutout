@@ -1,7 +1,15 @@
 """轻量级推理封装，基于 ISNet(ISNetDIS) 的动漫人物抠图。
 
-仅依赖 torch / torchvision / numpy / opencv，不依赖 pytorch_lightning 等
-训练相关的重型依赖。权重文件为 `isnetis.ckpt`（plain state_dict）。
+Derived from SkyTNT/anime-segmentation (Apache License 2.0):
+https://github.com/SkyTNT/anime-segmentation
+
+Modifications vs upstream inference.py:
+- 移除 pytorch_lightning 等训练期依赖，仅保留推理所需最小实现；
+- 改为加载 plain state_dict 权重（`isnetis.ckpt`）的轻量封装；
+- 接口适配插件调用（load_model / get_mask / render_result）。
+
+Licensed under the Apache License, Version 2.0; see LICENSE in this
+directory.
 """
 
 import torch
