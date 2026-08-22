@@ -52,7 +52,12 @@ AstrBot 动漫人物一键抠图插件。发送一张动漫图片即可去除背
 将下载到的 `isnetis.ckpt` 放到以下任一位置，插件会按优先级查找：
 
 1. 插件配置 `model_path` 中指定的路径
-2. 插件目录 `models/isnetis.ckpt`
+2. 数据目录 `data/plugin_data/astrbot_plugin_anime_cutout/isnetis.ckpt`
+3. 插件目录 `models/isnetis.ckpt`（兼容 `model/` 目录名）
+
+> 注意：AstrBot 实际加载的是 **已安装副本**
+> `data/plugins/astrbot_plugin_anime_cutout/`，请将模型放在该目录下
+> （而非开发工作区），否则插件找不到。
 
 ### 自动下载
 

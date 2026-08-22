@@ -349,14 +349,36 @@ class ModelManager:
         logger.info(f"[cutout] 模型下载完成: {dest}")
         return str(dest)
 
+    def _local_model_candidates(self) -> list[Path]:
+        """返回本地模型权重的候选路径（按优先级）。
+
+        同时兼容 `models/` 与 `model/` 目录名，
+        以及插件数据目录（自动下载的默认落点）。
+        """
+        name = self._config.hf_file or "isnetis.ckpt"
+        return [
+            # 自动下载的默认落点
+            self._data_dir / name,
+            # 插件目录内置（复数）
+            PLUGIN_DIR / "models" / name,
+            # 兼容用户手动放置时的单数目录名
+            PLUGIN_DIR / "model" / name,
+        ]
+
     def _resolve_model_path(self) -> str:
-        """按优先级解析模型路径：配置 → 内置 → 自动下载。"""
+        """按优先级解析模型路径。
+
+        顺序：配置指定 → 本地候选路径 → 自动下载。
+        """
         cfg_path = self._config.model_path
         if cfg_path and os.path.exists(cfg_path):
             return cfg_path
-        bundled = PLUGIN_DIR / "models" / "isnetis.ckpt"
-        if bundled.exists():
-            return str(bundled)
+        for cand in self._local_model_candidates():
+            if (
+                cand.exists()
+                and cand.stat().st_size > _MIN_MODEL_SIZE
+            ):
+                return str(cand)
         if self._config.auto_download_model:
             return self._download_model_sync()
         return ""
@@ -395,8 +417,9 @@ class ModelManager:
         if not path:
             raise RuntimeError(
                 "未找到模型权重文件。请在插件配置中设置"
-                " model_path，或将 isnetis.ckpt 放入插件"
-                "目录 models/ 下，或开启 auto_download_model。"
+                " model_path，或将 isnetis.ckpt 放入插件目录"
+                " models/（或 model/）下，"
+                "或开启 auto_download_model。"
             )
         async with _MODEL_LOCK:
             if (
