@@ -23,6 +23,18 @@
     "type": "string",
     "default": "isnetis.ckpt"
   },
+  "hf_use_mirror": {
+    "description": "使用 HF 镜像站",
+    "hint": "国内网络直连 huggingface.co 会超时，开启后自动切换到下方镜像站端点。海外服务器可关闭。",
+    "type": "bool",
+    "default": true
+  },
+  "hf_mirror_url": {
+    "description": "HF 镜像站端点",
+    "hint": "镜像站地址，默认 https://hf-mirror.com。仅在「使用 HF 镜像站」开启时生效。",
+    "type": "string",
+    "default": "https://hf-mirror.com"
+  },
   "device": {
     "description": "推理设备",
     "hint": "auto 自动选择 cuda:0（若可用）否则 cpu；也可手动指定 cpu 或 cuda:0。",

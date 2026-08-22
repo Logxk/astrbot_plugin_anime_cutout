@@ -60,14 +60,17 @@ AstrBot 动漫人物一键抠图插件。发送一张动漫图片即可去除背
 HuggingFace `skytnt/anime-seg` 下载到
 `data/plugin_data/astrbot_plugin_anime_cutout/isnetis.ckpt`。
 
-国内网络下，自动下载可改走镜像站加速：在启动 AstrBot 前设置环境变量
+国内网络下，自动下载默认已走镜像站加速（配置项 `hf_use_mirror` 默认开启，
+端点为 `https://hf-mirror.com`），无需手动设置环境变量。
+
+如需自定义端点，可修改配置项 `hf_mirror_url`；海外服务器可关闭
+`hf_use_mirror` 直连官方站。也可在启动 AstrBot 前设置环境变量：
 
 ```bash
 export HF_ENDPOINT=https://hf-mirror.com
 ```
 
-（Windows PowerShell：`$env:HF_ENDPOINT="https://hf-mirror.com"`），
-插件调用 `huggingface_hub` 时即会使用该镜像站。
+（Windows PowerShell：`$env:HF_ENDPOINT="https://hf-mirror.com"`）。
 
 ## 配置项
 
@@ -79,6 +82,8 @@ export HF_ENDPOINT=https://hf-mirror.com
 | `auto_download_model` | true | 找不到模型时自动下载 |
 | `hf_repo` | skytnt/anime-seg | 自动下载仓库 |
 | `hf_file` | isnetis.ckpt | 自动下载文件名 |
+| `hf_use_mirror` | true | 自动下载走 HF 镜像站（国内建议开启） |
+| `hf_mirror_url` | https://hf-mirror.com | 镜像站端点 |
 | `device` | auto | 推理设备：auto / cpu / cuda:0 |
 | `img_size` | 1024 | 网络输入尺寸，CPU 建议 640 |
 | `use_amp` | true | GPU 混合精度 |

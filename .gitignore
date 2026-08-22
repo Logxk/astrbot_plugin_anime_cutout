@@ -17,11 +17,13 @@ dist/
 build/
 
 # Large model weights — do not commit
-models/*.ckpt
-models/*.pth
-models/*.pt
-models/*.onnx
-models/*.safetensors
+model/
+models/
+*.ckpt
+*.pth
+*.pt
+*.onnx
+*.safetensors
 
 # OS / editor
 .DS_Store

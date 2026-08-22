@@ -177,6 +177,18 @@ class PluginConfig:
         return self._str(self._cfg, "hf_file", "isnetis.ckpt")
 
     @property
+    def hf_use_mirror(self) -> bool:
+        """是否使用 HuggingFace 镜像站（国内网络建议开启）。"""
+        return self._bool(self._cfg, "hf_use_mirror", True)
+
+    @property
+    def hf_mirror_url(self) -> str:
+        """HuggingFace 镜像站端点。"""
+        return self._str(
+            self._cfg, "hf_mirror_url", "https://hf-mirror.com"
+        )
+
+    @property
     def device(self) -> str:
         return self._str(self._cfg, "device", "auto")
 
@@ -297,16 +309,34 @@ class ModelManager:
             return str(dest)
         repo = self._config.hf_repo
         filename = self._config.hf_file
+
+        # 国内网络直连 huggingface.co 会超时，
+        # 默认切换到镜像站（可配置关闭）。
+        if self._config.hf_use_mirror:
+            os.environ["HF_ENDPOINT"] = (
+                self._config.hf_mirror_url
+            )
+
+        endpoint = os.environ.get("HF_ENDPOINT", "huggingface.co")
         logger.info(
-            f"[cutout] 开始从 HuggingFace({repo}) 下载模型 …"
+            f"[cutout] 开始从 HuggingFace({repo}) 下载模型，"
+            f"端点: {endpoint} …"
         )
         from huggingface_hub import hf_hub_download
 
-        hf_hub_download(
-            repo_id=repo,
-            filename=filename,
-            local_dir=self._data_dir,
-        )
+        try:
+            hf_hub_download(
+                repo_id=repo,
+                filename=filename,
+                local_dir=self._data_dir,
+            )
+        except Exception as e:
+            raise RuntimeError(
+                f"模型自动下载失败（{e.__class__.__name__}）。"
+                f"国内网络请开启「使用 HF 镜像站」配置项"
+                f"（默认已开启），或在 WebUI 中将模型文件手动"
+                f"放置到插件数据目录后设置 model_path。"
+            ) from e
         # 完整性校验：下载后检查文件大小
         if (
             not dest.exists()
@@ -349,8 +379,13 @@ class ModelManager:
         调用方应捕获返回值作为本地引用，防止 reload 后
         使用已被置 None 的 self.model。
         """
-        path = self._resolve_model_path()
-        device = self._resolve_device()
+        # 注意：_resolve_model_path 可能触发网络下载，
+        # _resolve_device 首次会 import torch（耗时数秒），
+        # 均必须放入线程执行，否则会阻塞事件循环。
+        path = await asyncio.to_thread(
+            self._resolve_model_path
+        )
+        device = await asyncio.to_thread(self._resolve_device)
         if (
             self.model is not None
             and self.model_path == path
